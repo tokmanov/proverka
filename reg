@@ -14,19 +14,21 @@
     function getName(){return $this->name;}
     function getLastname(){return $this->lastname;}
     function getEmail(){return $this->email;}
-    //Метод добавления пользователя
+    // Статический метод добавления пользователя
     static function addUser($name,$lastname,$email,$pass){
-    // echo "User added";
       global $mysqli;
-      //var_dump($mysqli);
-      $email = mb_strtolower(trim($email));
+      $email = mb_strtolower(trim($email)); 
       $pass = trim($pass);
-      $pass = password_hash($pass,PASSWORD_DEFAULT);
-      $result = $mysqli->query("SELECT * FROM `users` Where `email` ='$email'");
+      $pass = password_hash($pass, PASSWORD_DEFAULT);
+      $result = $mysqli->query("SELECT * FROM `users` WHERE `email`='$email'");
       if ($result->num_rows != 0) return json_encode(["result"=>"exist"]);
-      $mysqli->query("INSERT INTO `users`(`name`, `lastname`, `email`, `pass`) VALUES ($name,$lastname,$email,$pass)");
-      return json_encode(["result"=>"succese"]);
-      
+      $mysqli->query("INSERT INTO `users`(`name`, `lastname`, `email`, `pass`) VALUES ('$name','$lastname','$email','$pass')");
+      return json_encode(["result"=>"success"]);
+    }
+    // Статический метод авторизации пользователя
+    static function authUser($email,$pass){
+      global $mysqli;
+      return "Авторизация пользователя";
     }
   }
 ?>
